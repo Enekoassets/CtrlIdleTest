@@ -43,19 +43,9 @@
 
     <!-- Ranking instructions -->
     <div class="flex flex-row justify-between items-center w-full max-w-[1720px] px-4 py-4">
-
-      <p class="font-semibold bg-green-100 px-6 py-3 rounded-2xl">
-        Fastest
-      </p>
-
-      <p class="text-center text-gray-500">
-        Drag the videos to rank them from fastest (left) to slowest (right).
-      </p>
-
-      <p class="font-semibold bg-red-100 px-6 py-3 rounded-2xl">
-        Slowest
-      </p>
-
+      <p id="fastest" class="font-semibold bg-green-100 px-6 py-3 rounded-2xl"></p>
+      <h2 id="mainQuestion" class="text-2xl font-semibold text-center mb-2"></h2>
+      <p id="slowest" class="font-semibold bg-red-100 px-6 py-3 rounded-2xl"></p>
     </div>
 
 
@@ -85,7 +75,6 @@
           id="video1"
           class="mt-3 font-medium text-lg">
         </p>
-
       </div>
 
 
@@ -109,7 +98,6 @@
           id="video2"
           class="mt-3 font-medium text-lg">
         </p>
-
       </div>
 
 
@@ -133,7 +121,6 @@
           id="video3"
           class="mt-3 font-medium text-lg">
         </p>
-
       </div>
 
 
@@ -157,27 +144,15 @@
           id="video4"
           class="mt-3 font-medium text-lg">
         </p>
-
       </div>
-
     </div>
-
   </main>
 
 
   <!-- Submit Section -->
-  <section class="bg-white shadow-inner py-8 px-6">
-
-    <h2
-      id="mainQuestion"
-      class="text-2xl font-semibold text-center mb-2">
-    </h2>
-
-
+  <section class="bg-white shadow-inner py-2 px-6">
     <form id="rankingForm">
-
       <div class="flex justify-center mt-4">
-
         <button
           id="submitButton"
           type="submit"
@@ -186,19 +161,14 @@
                  hover:bg-green-700 transition opacity-50 cursor-not-allowed"
         >
         </button>
-
       </div>
-
     </form>
-
   </section>
 
-
   <!-- Footer -->
-  <footer class="text-center text-gray-500 text-sm py-4">
-    © 2025 Eneko Atxa Landa
+  <footer class="text-center text-gray-500 text-sm py-2">
+    © 2026 Eneko Atxa Landa
   </footer>
-
 
 <script>
 
@@ -216,70 +186,31 @@ loadLanguage(language);
 async function loadLanguage(lang) {
 
   try {
-
     const response = await fetch(`${lang}.json`);
-
     translations = await response.json();
-
     updateContent();
 
   } catch (err) {
-
     console.error(
       "Failed to load language file:",
       err
     );
-
   }
-
 }
 
 
 function updateContent() {
-
-  document.title =
-    translations.title;
-
-  document.getElementById(
-    "headerTitle"
-  ).innerHTML =
-    translations.headerTitle;
-
-  document.getElementById(
-    "headerExplanation"
-  ).innerHTML =
-    translations.headerExplanation;
-
-  document.getElementById(
-    "video1"
-  ).innerHTML =
-    translations.video1;
-
-  document.getElementById(
-    "video2"
-  ).innerHTML =
-    translations.video2;
-
-  document.getElementById(
-    "video3"
-  ).innerHTML =
-    translations.video3;
-
-  document.getElementById(
-    "video4"
-  ).innerHTML =
-    translations.video4;
-
-  document.getElementById(
-    "mainQuestion"
-  ).innerHTML =
-    translations.mainQuestion;
-
-  document.getElementById(
-    "submitButton"
-  ).innerHTML =
-    translations.submitButton;
-
+  document.title = translations.title;
+  document.getElementById("headerTitle").innerHTML = translations.headerTitle;
+  document.getElementById("headerExplanation").innerHTML = translations.headerExplanation;
+  document.getElementById("fastest").innerHTML = translations.fastest;
+  document.getElementById("slowest").innerHTML = translations.slowest;
+  document.getElementById("video1").innerHTML = translations.video1;
+  document.getElementById("video2").innerHTML = translations.video2;
+  document.getElementById("video3").innerHTML = translations.video3;
+  document.getElementById("video4").innerHTML = translations.video4;
+  document.getElementById("mainQuestion").innerHTML = translations.mainQuestion;
+  document.getElementById("submitButton").innerHTML = translations.submitButton;
 }
 
 
@@ -288,80 +219,31 @@ function updateContent() {
    ========================================================= */
 
 document.addEventListener(
-  "DOMContentLoaded",
-  () => {
-
-    const videoGrid =
-      document.getElementById(
-        "videoGrid"
-      );
-
-    const videoElements =
-      document.querySelectorAll(
-        "video"
-      );
-
-    const videoContainers =
-      document.querySelectorAll(
-        ".video-container"
-      );
-
-    const form =
-      document.getElementById(
-        "rankingForm"
-      );
-
-    const submitButton =
-      document.getElementById(
-        "submitButton"
-      );
-
-    const age =
-      localStorage.getItem(
-        "age"
-      );
-
-    const gender =
-      localStorage.getItem(
-        "gender"
-      );
-
+  "DOMContentLoaded", () => {
+    const videoGrid = document.getElementById("videoGrid");
+    const videoElements = document.querySelectorAll("video");
+    const videoContainers = document.querySelectorAll(".video-container");
+    const form = document.getElementById("rankingForm");
+    const submitButton = document.getElementById("submitButton");
+    const age = localStorage.getItem("age");
+    const gender = localStorage.getItem("gender");
 
     var db;
 
     loadFirebase();
 
-
     var videoId;
-
     var responseCount = 0;
-
     var maxResponses = 20;
-
     var videoIds = [];
-
     var numVideos = 60;
 
+    var attentionCheck1 = Math.floor(Math.random() * 4) + 5;
+    var attentionCheck2 = Math.floor(Math.random() * 4) + 13;
 
-    var attentionCheck1 =
-      Math.floor(
-        Math.random() * 4
-      ) + 5;
+    const userID = Date.now();
 
-    var attentionCheck2 =
-      Math.floor(
-        Math.random() * 4
-      ) + 13;
-
-
-    const userID =
-      Date.now();
-
-
-    localStorage.setItem(
-      "userID",
-      userID
-    );
+    localStorage.setItem("userID", userID);
 
 
     /* =====================================================
@@ -370,72 +252,37 @@ document.addEventListener(
 
     let draggedContainer = null;
 
-
     /*
      * Drag start
      */
 
-    videoGrid.addEventListener(
-      "dragstart",
-      (event) => {
-
-        const container =
-          event.target.closest(
-            ".video-container"
-          );
+    videoGrid.addEventListener("dragstart", (event) => {
+        const container = event.target.closest(".video-container");
 
         if (!container) {
           return;
         }
 
-
-        draggedContainer =
-          container;
-
-
-        container.classList.add(
-          "opacity-50"
-        );
-
-
-        event.dataTransfer.effectAllowed =
-          "move";
-
-        event.dataTransfer.setData(
-          "text/plain",
-          ""
-        );
-
+        draggedContainer = container;
+        container.classList.add("opacity-50");
+        event.dataTransfer.effectAllowed = "move";
+        event.dataTransfer.setData("text/plain", "");
       }
     );
-
 
     /*
      * Drag end
      */
 
-    videoGrid.addEventListener(
-      "dragend",
-      (event) => {
-
-        const container =
-          event.target.closest(
-            ".video-container"
-          );
+    videoGrid.addEventListener("dragend", (event) => {
+        const container = event.target.closest(".video-container");
 
         if (!container) {
           return;
         }
 
-
-        container.classList.remove(
-          "opacity-50"
-        );
-
-
-        draggedContainer =
-          null;
-
+        container.classList.remove("opacity-50");
+        draggedContainer = null;
       }
     );
 
@@ -444,63 +291,34 @@ document.addEventListener(
      * Drag over
      */
 
-    videoGrid.addEventListener(
-      "dragover",
-      (event) => {
-
+    videoGrid.addEventListener("dragover", (event) => {
         event.preventDefault();
-
 
         if (!draggedContainer) {
           return;
         }
 
+        const afterElement = getDragAfterElement(videoGrid, event.clientX);
 
-        const afterElement =
-          getDragAfterElement(
-            videoGrid,
-            event.clientX
-          );
-
-
-        if (
-          afterElement == null
-        ) {
-
-          videoGrid.appendChild(
-            draggedContainer
-          );
-
+        if (afterElement == null) {
+          videoGrid.appendChild(draggedContainer);
+        } else {
+          videoGrid.insertBefore(draggedContainer,afterElement);
         }
-        else {
-
-          videoGrid.insertBefore(
-            draggedContainer,
-            afterElement
-          );
-
-        }
-
       }
     );
-
 
     /*
      * Determine where the dragged video
      * should be inserted.
      */
 
-    function getDragAfterElement(
-      container,
-      x
-    ) {
-
+    function getDragAfterElement(container, x) {
       const elements = [
         ...container.querySelectorAll(
           ".video-container:not(.opacity-50)"
         )
       ];
-
 
       return elements.reduce(
         (
@@ -508,141 +326,65 @@ document.addEventListener(
           child
         ) => {
 
-          const box =
-            child.getBoundingClientRect();
+          const box = child.getBoundingClientRect();
+          const offset = x - box.left - box.width / 2;
 
-
-          const offset =
-            x -
-            box.left -
-            box.width / 2;
-
-
-          if (
-            offset < 0 &&
-            offset > closest.offset
-          ) {
-
+          if (offset < 0 && offset > closest.offset) {
             return {
               offset: offset,
               element: child
             };
-
           }
-
-
           return closest;
-
         },
         {
-          offset:
-            Number.NEGATIVE_INFINITY,
-
-          element:
-            null
+          offset: Number.NEGATIVE_INFINITY,
+          element: null
         }
       ).element;
-
     }
-
 
     /* =====================================================
        GET CURRENT RANKING
        ===================================================== */
 
     function getRanking() {
-
       return [
         ...videoGrid.querySelectorAll(
           ".video-container"
         )
-      ].map(
-        container =>
-          container.dataset.videoType
-      );
-
+      ].map(container => container.dataset.videoType);
     }
-
 
     /* =====================================================
        SUBMIT
        ===================================================== */
 
-    form.addEventListener(
-      "submit",
-      async (e) => {
-
+    form.addEventListener("submit", async (e) => {
         e.preventDefault();
 
+        const ranking = getRanking();
 
-        const ranking =
-          getRanking();
-
-
-        if (
-          ranking.length !== 4
-        ) {
-
-          if (
-            language == "es"
-          ) {
-
-            alert(
-              "Por favor, ordena los cuatro vídeos."
-            );
-
+        if (ranking.length !== 4) {
+          if (language == "es") {
+            alert("Por favor, ordena los cuatro vídeos.");
           }
-          else if (
-            language == "en"
-          ) {
-
-            alert(
-              "Please rank all four videos."
-            );
-
+          else if (language == "en") {
+            alert("Please rank all four videos.");
           }
           else {
-
-            alert(
-              "Mesedez, ordenatu lau bideoak."
-            );
-
+            alert("Mesedez, ordenatu lau bideoak.");
           }
-
           return;
-
         }
 
-
         const result = {
+          videoNum: videoId,
 
-          videoNum:
-            videoId,
-
-          video_01:
-            videoElements[0]
-              .src
-              .split("/")
-              .slice(-2)[0],
-
-          video_02:
-            videoElements[1]
-              .src
-              .split("/")
-              .slice(-2)[0],
-
-          video_03:
-            videoElements[2]
-              .src
-              .split("/")
-              .slice(-2)[0],
-
-          video_04:
-            videoElements[3]
-              .src
-              .split("/")
-              .slice(-2)[0],
-
+          video_01: videoElements[0].src.split("/").slice(-2)[0],
+          video_02: videoElements[1].src.split("/").slice(-2)[0],
+          video_03: videoElements[2].src.split("/").slice(-2)[0],
+          video_04: videoElements[3].src.split("/").slice(-2)[0],
 
           /*
            * Example:
@@ -658,66 +400,29 @@ document.addEventListener(
            * 4th = nn
            */
 
-          ranking:
-            ranking,
-
-          timestamp:
-            new Date().toISOString(),
-
-          userID:
-            userID,
-
-          responseCount:
-            responseCount,
-
-          age:
-            age,
-
-          gender:
-            gender,
-
-          language:
-            language
-
+          ranking:ranking,
+          timestamp:new Date().toISOString(),
+          userID:userID,
+          responseCount:responseCount,
+          age:age,
+          gender:gender,
+          language:language
         };
 
-
-        localStorage.setItem(
-          `videoChoice_${videoId}`,
-          JSON.stringify(result)
-        );
-
+        localStorage.setItem(`videoChoice_${videoId}`,JSON.stringify(result));
 
         try {
+          await db.collection("videoComparison").add(result);
 
-          await db
-            .collection(
-              "videoComparison"
-            )
-            .add(result);
+          console.log("Saved to Firebase!",result);
 
-
-          console.log(
-            "Saved to Firebase!",
-            result
-          );
-
-
-          if (
-            videoId != attentionCheck1 &&
-            videoId != attentionCheck2
-          ) {
-
+          if (videoId != attentionCheck1 && videoId != attentionCheck2) {
             responseCount++;
-
           }
-
 
           if (responseCount < maxResponses) {
             form.reset();
-            loadNextVideos(
-              responseCount
-            );
+            loadNextVideos(responseCount);
           }
           else {
             await registerEndTime();
@@ -753,8 +458,7 @@ document.addEventListener(
        * Reset visual feedback
        */
 
-      videoElements.forEach(
-        video => {
+      videoElements.forEach(video => {
           video.classList.remove(
             "ring-4",
             "ring-green-400"
@@ -763,11 +467,7 @@ document.addEventListener(
       );
 
       submitButton.disabled = true;
-
-      submitButton.classList.add(
-        "opacity-50",
-        "cursor-not-allowed"
-      );
+      submitButton.classList.add("opacity-50", "cursor-not-allowed");
 
       /*
        * Select a new video ID
@@ -785,69 +485,39 @@ document.addEventListener(
          SELECT FOUR DIFFERENT METHODS
          ===================================================== */
 
-      const options = ["easing","gt","nn","noise","slerp"];
+      const options = ["fastest","fast","slow","slowest"];
       const chosen = [];
 
       while (chosen.length < 4) {
 
-        const pick =
-          options[
-            Math.floor(
-              Math.random() *
-              options.length
-            )
-          ];
+        const pick = options[Math.floor(Math.random() * options.length)];
 
-
-        if (
-          !chosen.includes(
-            pick
-          )
-        ) {
-
-          chosen.push(
-            pick
-          );
-
+        if (!chosen.includes(pick)) {
+          chosen.push(pick);
         }
-
       }
 
-
-      let selectedVideos =
-        chosen;
-
+      let selectedVideos = chosen;
 
       /* =====================================================
          ATTENTION CHECKS / FIXED TRIALS
          ===================================================== */
 
-      if (
-        responseCount ===
-        attentionCheck1
-      ) {
+      if (responseCount === attentionCheck1) {
         selectedVideos = ["attention1","attention1","attention1","attention1"];
       }
 
-      else if (
-        responseCount ===
-        attentionCheck2
-      ) {
-        selectedVideos = ["attention1","attention2","attention1","attention2"];
+      else if (responseCount === attentionCheck2) {
+        selectedVideos = ["attention2","attention2","attention2","attention2"];
       }
 
-      else if (
-        responseCount === 0
-      ) {
-        selectedVideos = ["gt","noise","slerp","nn"];
+      else if (responseCount === 0) {
+        selectedVideos = ["fastest","fast","slow","slowest"];
       }
 
-      else if (
-        responseCount === 1
-      ) {
-        selectedVideos = ["slerp","gt","noise","easing"];
+      else if (responseCount === 1) {
+        selectedVideos = ["fastest","fast","slow","slowest"];
       }
-
 
       /* =====================================================
          CREATE VIDEO PATHS
@@ -867,13 +537,11 @@ document.addEventListener(
           }
         );
 
-
       /* =====================================================
          RESET VIDEOS
          ===================================================== */
 
-      videoElements.forEach(
-        video => {
+      videoElements.forEach(video => {
           video.pause();
           video.currentTime = 0;
           video.src = "";
@@ -890,32 +558,22 @@ document.addEventListener(
        * loading a new trial.
        */
 
-      videoContainers.forEach(
-        container => {
+      videoContainers.forEach(container => {
           videoGrid.appendChild(container);
         }
       );
-
 
       /* =====================================================
          ASSIGN SOURCES AND VIDEO TYPES
          ===================================================== */
 
-      videoElements.forEach(
-        (video, index) => {
-
+      videoElements.forEach((video, index) => {
           video.src = paths[index];
           video.load();
-
-          const container =
-            video.closest(
-              ".video-container"
-            );
-
+          const container = video.closest(".video-container");
           container.dataset.videoType = selectedVideos[index];
         }
       );
-
 
       /* =====================================================
          VIDEO END CHECK
@@ -923,33 +581,18 @@ document.addEventListener(
 
       let videoEnded = [false,false,false,false];
 
-
-      videoElements.forEach(
-        (video, index) => {
-          video.onended =
-            () => {
-              videoEnded[index] =
-                true;
-
-              video.classList.add(
-                "ring-4",
-                "ring-green-400"
-              );
+      videoElements.forEach((video, index) => {
+          video.onended = () => {videoEnded[index] = true;
+              video.classList.add("ring-4", "ring-green-400");
 
               if (videoEnded.every(Boolean)) {
-
                 submitButton.disabled = false;
-
-                submitButton.classList.remove(
-                  "opacity-50",
-                  "cursor-not-allowed"
-                );
+                submitButton.classList.remove("opacity-50", "cursor-not-allowed");
               }
             };
         }
       );
     }
-
 
     /* =========================================================
        FIREBASE
@@ -965,10 +608,7 @@ document.addEventListener(
       appId: "1:1063127745379:web:8067eda28b3beabbeb4956"
     };
 
-
-      firebase.initializeApp(
-        firebaseConfig
-      );
+      firebase.initializeApp(firebaseConfig);
       db = firebase.firestore();
     }
 
@@ -977,16 +617,8 @@ document.addEventListener(
        ========================================================= */
 
     async function registerEndTime() {
-
       const endTime = Date.now();
-
-      const startTime =
-        Number(
-          localStorage.getItem(
-            "startButtonClickTime"
-          )
-        );
-
+      const startTime = Number(localStorage.getItem("startButtonClickTime"));
 
       const result = {
         startTime:startTime,
@@ -995,17 +627,8 @@ document.addEventListener(
       };
 
       try {
-        await db
-          .collection(
-            "timing"
-          )
-          .add(
-            result
-          );
-
-        console.log(
-          "Timing data saved successfully."
-        );
+        await db.collection("timing").add(result);
+        console.log("Timing data saved successfully.");
       }
       catch (err) {
         console.error("Error saving timing data:", err);
@@ -1015,7 +638,6 @@ document.addEventListener(
     /* =========================================================
        START FIRST TRIAL
        ========================================================= */
-
     loadNextVideos(responseCount);
   }
 );
