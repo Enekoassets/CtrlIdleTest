@@ -26,8 +26,9 @@
     "inputGenderTxt": "Gender",
     "inputMaleTxt": "Male",
     "inputFemaleTxt": "Female",
-    "inputNBTxt": "Non-binary",
+    "inputOtherTxt": "Other",
+    "inputNotSayTxt": "Prefer not to say",
     "feedbackLabel": "Write your feedback here, and press the button",
-    "feedbackText": "Finally, you can write any feedback that you seem to have about this exercise. This step is optional, you can close the window if you want.",
+    "feedbackText": "Finally, you can write any feedback that you seem to have about this exercise. This step is optional, you may hit send with an empty text if you don't want to comment.",
     "feedbackButton": "Send feedback"
 }

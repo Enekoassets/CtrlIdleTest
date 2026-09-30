@@ -504,34 +504,28 @@ document.addEventListener(
          ===================================================== */
 
       if (responseCount === attentionCheck1) {
-        selectedVideos = ["attention1","attention1","attention1","attention1"];
+        selectedVideos = ["attention13","attention11","attention12","attention10"];
       }
 
       else if (responseCount === attentionCheck2) {
-        selectedVideos = ["attention2","attention2","attention2","attention2"];
+        selectedVideos = ["attention21","attention20","attention23","attention22"];
       }
 
-      else if (responseCount === 0) {
-        selectedVideos = ["fastest","fast","slow","slowest"];
-      }
+      // else if (responseCount === 0) {
+      //   selectedVideos = ["fastest","fast","slow","slowest"];
+      // }
 
-      else if (responseCount === 1) {
-        selectedVideos = ["fastest","fast","slow","slowest"];
-      }
+      // else if (responseCount === 1) {
+      //   selectedVideos = ["fastest","fast","slow","slowest"];
+      // }
 
       /* =====================================================
          CREATE VIDEO PATHS
          ===================================================== */
 
-      const paths =
-        selectedVideos.map(
-          type => {
-            if (type === "attention1") {
-              return `videos/attentionChecks/${localStorage.getItem("language")}1.mp4`;
-            }
-
-            if (type === "attention2") {
-              return `videos/attentionChecks/${localStorage.getItem("language")}2.mp4`;
+      const paths = selectedVideos.map(type => {
+            if (type === "attention1" || type === "attention2") {
+              return `videos/attentionChecks/${localStorage.getItem("language")}_${type}.mp4`;
             }
             return `videos/${type}/${type}_${videoId}.mp4`;
           }
@@ -551,12 +545,6 @@ document.addEventListener(
       /* =====================================================
          RESET VIDEO CONTAINER ORDER
          ===================================================== */
-
-      /*
-       * We need to restore the original four
-       * containers to positions 0,1,2,3 before
-       * loading a new trial.
-       */
 
       videoContainers.forEach(container => {
           videoGrid.appendChild(container);

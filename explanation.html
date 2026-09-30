@@ -34,8 +34,12 @@
           <label id="inputFemaleTxt" for="female">Female</label>
         </div>
         <div>
-          <input type="radio" id="non-binary" name="gender" value="non-binary"/>
-          <label id="inputNBTxt" for="non-binary">Non-binary</label>
+          <input type="radio" id="other" name="gender" value="other"/>
+          <label id="inputOtherTxt" for="other">Other</label>
+        </div>
+        <div>
+          <input type="radio" id="notsay" name="gender" value="notsay"/>
+          <label id="inputNotSayTxt" for="notsay">Prefer not to say</label>
         </div>
       </fieldset>
     </div>
@@ -84,7 +88,8 @@
     document.getElementById("inputGenderTxt").innerHTML = translations.inputGenderTxt;
     document.getElementById("inputMaleTxt").innerHTML = translations.inputMaleTxt;
     document.getElementById("inputFemaleTxt").innerHTML = translations.inputFemaleTxt;
-    document.getElementById("inputNBTxt").innerHTML = translations.inputNBTxt;
+    document.getElementById("inputOtherTxt").innerHTML = translations.inputOtherTxt;
+    document.getElementById("inputNotSayTxt").innerHTML = translations.inputNotSayTxt;
     document.getElementById("informationLabel").innerHTML = translations.informationLabel;
     }
 
