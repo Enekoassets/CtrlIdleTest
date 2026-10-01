@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title></title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Firebase App -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+
+  <!-- Firebase Firestore -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+</head>
+
+
+<body class="bg-gray-50 text-gray-900 flex flex-col min-h-screen">
+
+  <!-- Header -->
+  <header class="text-center py-6 bg-white shadow-sm">
+
+    <h1
+      id="headerTitle"
+      class="text-3xl font-bold">
+    </h1>
+
+    <p
+      id="headerExplanation"
+      class="text-gray-500 mt-2">
+    </p>
+
+    <h1
+      id="headerProgress"
+      class="text-3xl font-bold text-gray-500 mt-2">
+    </h1>
+
+  </header>
+
+
+  <!-- Main Section -->
+  <main class="flex flex-col items-center justify-center flex-grow w-full">
+
+    <!-- Question -->
+    <div class="flex justify-center items-center w-full max-w-[1720px] px-4 py-4">
+      <h2
+        id="mainQuestionSelecting"
+        class="text-2xl font-semibold text-center">
+      </h2>
+    </div>
+
+
+    <!-- Reference image + three videos -->
+    <div
+      id="videoGrid"
+      class="grid grid-cols-1 md:grid-cols-4 gap-2 w-full max-w-[1720px] px-2"
+    >
+
+      <!-- =====================================================
+           REFERENCE IMAGE
+           ===================================================== -->
+
+      <div
+        class="video-container bg-gray-100 rounded-2xl shadow p-4 flex flex-col items-center select-none"
+      >
+
+        <img
+          id="referenceImage"
+          src="videos/reference.png"
+          class="rounded-xl w-full"
+          alt="Reference"
+        >
+
+        <p
+          id="referenceLabel"
+          class="mt-3 font-medium text-lg">
+        </p>
+
+      </div>
+
+
+      <!-- =====================================================
+           VIDEO 1
+           ===================================================== -->
+
+      <div
+        class="video-container bg-white rounded-2xl shadow p-4 flex flex-col items-center select-none"
+        data-video-index="0"
+      >
+
+        <video
+          id="videoElement0"
+          class="rounded-xl w-full"
+          controls
+          autoplay
+          muted
+        >
+          <source src="" type="video/mp4">
+          Your browser does not support the video tag.
+        </video>
+
+        <p
+          id="video1"
+          class="mt-3 font-medium text-lg">
+        </p>
+
+        <button
+          type="button"
+          class="select-button mt-3 px-6 py-2 rounded-xl font-semibold
+                 bg-gray-200 hover:bg-gray-300 transition
+                 disabled:opacity-50 disabled:cursor-not-allowed"
+          data-video-index="0"
+          disabled
+        >
+          Select
+        </button>
+
+      </div>
+
+
+      <!-- =====================================================
+           VIDEO 2
+           ===================================================== -->
+
+      <div
+        class="video-container bg-white rounded-2xl shadow p-4 flex flex-col items-center select-none"
+        data-video-index="1"
+      >
+
+        <video
+          id="videoElement1"
+          class="rounded-xl w-full"
+          controls
+          autoplay
+          muted
+        >
+          <source src="" type="video/mp4">
+          Your browser does not support the video tag.
+        </video>
+
+        <p
+          id="video2"
+          class="mt-3 font-medium text-lg">
+        </p>
+
+        <button
+          type="button"
+          class="select-button mt-3 px-6 py-2 rounded-xl font-semibold
+                 bg-gray-200 hover:bg-gray-300 transition
+                 disabled:opacity-50 disabled:cursor-not-allowed"
+          data-video-index="1"
+          disabled
+        >
+          Select
+        </button>
+
+      </div>
+
+
+      <!-- =====================================================
+           VIDEO 3
+           ===================================================== -->
+
+      <div
+        class="video-container bg-white rounded-2xl shadow p-4 flex flex-col items-center select-none"
+        data-video-index="2"
+      >
+
+        <video
+          id="videoElement2"
+          class="rounded-xl w-full"
+          controls
+          autoplay
+          muted
+        >
+          <source src="" type="video/mp4">
+          Your browser does not support the video tag.
+        </video>
+
+        <p
+          id="video3"
+          class="mt-3 font-medium text-lg">
+        </p>
+
+        <button
+          type="button"
+          class="select-button mt-3 px-6 py-2 rounded-xl font-semibold
+                 bg-gray-200 hover:bg-gray-300 transition
+                 disabled:opacity-50 disabled:cursor-not-allowed"
+          data-video-index="2"
+          disabled
+        >
+          Select
+        </button>
+
+      </div>
+
+    </div>
+
+  </main>
+
+
+  <!-- Submit Section -->
+  <section class="bg-white shadow-inner py-2 px-6">
+
+    <form id="rankingForm">
+
+      <div class="flex justify-center mt-4">
+
+        <button
+          id="submitButton"
+          type="submit"
+          disabled
+          class="bg-green-600 text-white font-semibold px-6 py-2 rounded-xl
+                 hover:bg-green-700 transition
+                 opacity-50 cursor-not-allowed"
+        >
+        </button>
+      </div>
+    </form>
+  </section>
+
+  <!-- Footer -->
+  <footer class="text-center text-gray-500 text-sm py-2">
+    © 2026 Eneko Atxa Landa
+  </footer>
+
+<script>
+
+let translations = {};
+var language = localStorage.getItem("language");
+loadLanguage(language);
+
+async function loadLanguage(lang) {
+  try {
+    const response = await fetch(`${lang}.json`);
+    translations = await response.json();
+    updateContent();
+  }
+  catch (err) {
+    console.error("Failed to load language file:", err);
+  }
+
+}
+
+function updateContent() {
+  document.title = translations.titleSelecting;
+  document.getElementById("headerTitle").innerHTML = translations.headerTitleSelecting;
+  document.getElementById("headerExplanation").innerHTML = translations.headerExplanationSelecting;
+  document.getElementById("video1").innerHTML = translations.video1;
+  document.getElementById("video2").innerHTML = translations.video2;
+  document.getElementById("video3").innerHTML = translations.video3;
+  document.getElementById("mainQuestionSelecting").innerHTML = translations.mainQuestionSelecting;
+  document.getElementById("submitButton").innerHTML = translations.submitButton;
+
+  if (translations.referenceLabel) {
+    document.getElementById("referenceLabel").innerHTML = translations.referenceLabel;
+  }
+
+  if (translations.selectButton) {
+    document.querySelectorAll(".select-button").forEach(button => {
+      button.innerHTML = translations.selectButton;
+    });
+  }
+
+}
+
+/* =========================================================
+   MAIN
+   ========================================================= */
+
+document.addEventListener("DOMContentLoaded", () => {
+    const videoGrid = document.getElementById("videoGrid");
+    const videoElements = document.querySelectorAll("video");
+    const selectButtons = document.querySelectorAll(".select-button");
+    const videoContainers = document.querySelectorAll(".video-container");
+    const form = document.getElementById("rankingForm");
+    const submitButton = document.getElementById("submitButton");
+    const age = localStorage.getItem("age");
+    const gender = localStorage.getItem("gender");
+
+    var db;
+    loadFirebase();
+
+    var videoId;
+    var responseCount = 0;
+    var maxResponses = 20;
+    var videoIds = [];
+    var numVideos = 50;
+
+    var attentionCheck1 = Math.floor(Math.random() * 4) + 5;
+    var attentionCheck2 = Math.floor(Math.random() * 4) + 13;
+
+    const userID = Date.now();
+    localStorage.setItem("userID", userID);
+
+    let selectedVideoIndex = null;
+
+    let videoEnded = [false,false,false];
+
+    selectButtons.forEach(button => {
+      button.addEventListener("click", () => {
+          const index = Number(button.dataset.videoIndex);
+
+          if (!videoEnded.every(Boolean)) {
+            return;
+          }
+
+          selectedVideoIndex = index;
+
+          selectButtons.forEach(otherButton => {
+              otherButton.classList.remove("bg-green-600","text-white");
+              otherButton.classList.add("bg-gray-200");
+              otherButton.innerHTML = translations.selectButton;
+            }
+          );
+
+          button.classList.remove("bg-gray-200");
+          button.classList.add("bg-green-600", "text-white");
+
+          if (translations.selectedButton) {
+            button.innerHTML = translations.selectedButton;
+          }
+
+          submitButton.disabled = false;
+          submitButton.classList.remove("opacity-50", "cursor-not-allowed");
+        }
+      );
+    });
+
+    form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+
+        if (selectedVideoIndex === null) {
+          if (language == "es") {
+            alert("Por favor, selecciona un vídeo.");
+          }
+          else if (language == "eus") {
+            alert("Mesedez, hautatu bideo bat.");
+          }
+          else {
+            alert("Please select a video.");
+          }
+          return;
+        }
+
+        if (!videoEnded.every(Boolean)) {
+          if (language == "es") {
+            alert("Por favor, mira los tres vídeos hasta el final.");
+          }
+          else if (language == "eus") {
+            alert("Mesedez, ikusi hiru bideoak amaierara arte.");
+          }
+          else {
+            alert("Please watch all three videos until the end.");
+          }
+          return;
+        }
+
+        const videoFilenames = [...videoElements].map(video => video.src.split("/").slice(-1)[0]);
+
+        const correctAnswer = document.getElementById("referenceImage").src.split("/").pop();
+
+        const result = {
+          video_01: videoFilenames[0],
+          video_02: videoFilenames[1],
+          video_03: videoFilenames[2],
+          selectedVideo: selectedVideoIndex + 1,
+          correctVideo: correctAnswer,
+          selectedVideoFile: videoFilenames[selectedVideoIndex],
+          timestamp: new Date().toISOString(),
+          userID: userID,
+          responseCount: responseCount,
+          age: age,
+          gender: gender,
+          language: language
+        };
+
+        console.log(result);
+
+
+        localStorage.setItem(`videoChoice_${videoId}`, JSON.stringify(result));
+
+        try {
+          await db.collection("videoSelection").add(result);
+
+          if (videoId != attentionCheck1 && videoId != attentionCheck2) {
+            responseCount++;
+          }
+
+          if (responseCount < maxResponses) {
+            form.reset();
+            loadNextVideos(responseCount);
+          }
+
+          else {
+            await registerEndTime();
+            window.location.href = "final.html";
+          }
+
+        }
+        catch (err) {
+          console.error(err);
+          if (language == "es") {
+            alert("Error al guardar los datos. Por favor, póngase en contacto con el administrador.");
+          }
+          else if (language == "eus") {
+            alert("Errorea datuak gordetzean. Abisatu administratzaileari, mesedez.");
+          }
+          else {
+            alert("Error saving data. Please, contact the administrator.");
+          }
+        }
+      }
+    );
+
+    function loadNextVideos(currentResponseCount) {
+      document.getElementById("headerProgress").innerHTML = (currentResponseCount + 1) + " / " + maxResponses;
+
+      selectedVideoIndex = null;
+
+      videoEnded = [false, false, false];
+      submitButton.disabled = true;
+      submitButton.classList.add("opacity-50", "cursor-not-allowed");
+
+      selectButtons.forEach(button => {
+          button.disabled = true;
+          button.classList.remove("bg-green-600", "text-white");
+          button.classList.add("bg-gray-200");
+
+          if (translations.selectButton) {
+              button.innerHTML = translations.selectButton;
+          }
+      });
+
+      const selectedIndices = [];
+
+      while (selectedIndices.length < 3) {
+          const index = Math.floor(Math.random() * 100); // 0–100
+
+          if (!selectedIndices.includes(index)) {
+              selectedIndices.push(index);
+          }
+      }
+
+      // Convert 0 -> "00", 7 -> "07", 34 -> "34", etc.
+      const videoNames = selectedIndices.map(index =>
+          String(index).padStart(2, "0")
+      );
+
+      
+      /* =====================================================
+        LOAD VIDEOS
+        ===================================================== */
+
+      videoElements.forEach((video, index) => {
+          video.pause();
+          video.currentTime = 0;
+          video.classList.remove("ring-4", "ring-green-400");
+          video.src = `videos/pose/${videoNames[index]}.mp4`;
+          video.load();
+      });
+
+
+      /* =====================================================
+        CHOOSE ONE VIDEO AND LOAD ITS GT PNG
+        ===================================================== */
+
+      const gtIndex = Math.floor(Math.random() * 3);
+      const gtVideoName = videoNames[gtIndex];
+
+      const gtPath = `videos/pose/${gtVideoName}_gt.png`;
+
+      // Assuming you have an <img> element for the GT image:
+      document.getElementById("referenceImage").src = gtPath;
+
+      /* =====================================================
+        STORE VIDEO TYPES / INDICES
+        ===================================================== */
+
+      videoElements.forEach((video, index) => {
+          const container = video.closest(".video-container");
+
+          container.dataset.videoType = videoNames[index];
+      });
+
+
+      /* =====================================================
+        VIDEO END HANDLING
+        ===================================================== */
+
+      videoElements.forEach((video, index) => {
+          video.onended = () => {
+              videoEnded[index] = true;
+
+              video.classList.add("ring-4", "ring-green-400");
+
+              if (videoEnded.every(Boolean)) {
+                  selectButtons.forEach(button => {
+                      button.disabled = false;
+                  });
+              }
+          };
+      });
+  }
+
+    function loadFirebase() {
+      const firebaseConfig = {
+        apiKey:"AIzaSyCAjgJ9z4qeMvEx03_y3m8wJwYnHY7OYL4",
+        authDomain:"ctrlidle.firebaseapp.com",
+        projectId:"ctrlidle",
+        storageBucket:"ctrlidle.firebasestorage.app",
+        messagingSenderId:"1063127745379",
+        appId:"1:1063127745379:web:8067eda28b3beabbeb4956"
+      };
+
+      firebase.initializeApp(firebaseConfig);
+      db = firebase.firestore();
+    }
+
+    async function registerEndTime() {
+      const endTime = Date.now();
+      const startTime = Number(localStorage.getItem("startButtonClickTime"));
+      const result = {
+        startTime: startTime,
+        endTime: endTime,
+        userId: userID
+      };
+
+      try {
+        await db.collection("timing").add(result);
+        console.log("Timing data saved successfully.");
+      }
+      catch (err) {
+        console.error("Error saving timing data:", err);
+      }
+    }
+    loadNextVideos(responseCount);
+  }
+);
+
+</script>
+
+</body>
+</html>
