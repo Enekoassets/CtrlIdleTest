@@ -433,7 +433,34 @@ document.addEventListener("DOMContentLoaded", () => {
           }
       });
 
-      const selectedIndices = [];
+      if (responseCount === attentionCheck1) {
+          var videoNames = ["attention_select_11","attention_select_10","attention_select_12"]
+          videoElements.forEach((video, index) => {
+            video.pause();
+            video.currentTime = 0;
+            video.classList.remove("ring-4", "ring-green-400");
+            video.src = `videos/attentionChecks/${localStorage.getItem("language")}_${videoNames[index]}.mp4`;
+            video.load();
+        });
+        const gtIndex = Math.floor(Math.random() * 100).toString().padStart(2, "0");
+        const gtPath = `videos/pose/${gtIndex}_gt.png`;
+        document.getElementById("referenceImage").src = gtPath;
+
+      } else if (responseCount === attentionCheck2) {
+        var videoNames = ["attention_select_21","attention_select_22","attention_select_20"]
+          videoElements.forEach((video, index) => {
+            video.pause();
+            video.currentTime = 0;
+            video.classList.remove("ring-4", "ring-green-400");
+            video.src = `videos/attentionChecks/${localStorage.getItem("language")}_${videoNames[index]}.mp4`;
+            video.load();
+        });
+
+        const gtIndex = Math.floor(Math.random() * 100).toString().padStart(2, "0");
+        const gtPath = `videos/pose/${gtIndex}_gt.png`;
+        document.getElementById("referenceImage").src = gtPath;
+      } else {
+        const selectedIndices = [];
 
       while (selectedIndices.length < 3) {
           const index = Math.floor(Math.random() * 100); // 0–100
@@ -448,7 +475,6 @@ document.addEventListener("DOMContentLoaded", () => {
           String(index).padStart(2, "0")
       );
 
-      
       /* =====================================================
         LOAD VIDEOS
         ===================================================== */
@@ -460,8 +486,6 @@ document.addEventListener("DOMContentLoaded", () => {
           video.src = `videos/pose/${videoNames[index]}.mp4`;
           video.load();
       });
-
-
       /* =====================================================
         CHOOSE ONE VIDEO AND LOAD ITS GT PNG
         ===================================================== */
@@ -473,6 +497,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       // Assuming you have an <img> element for the GT image:
       document.getElementById("referenceImage").src = gtPath;
+      }   
 
       /* =====================================================
         STORE VIDEO TYPES / INDICES
