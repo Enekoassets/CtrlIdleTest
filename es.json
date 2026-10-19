@@ -12,6 +12,14 @@
         "La prueba contiene controles de atención. En estos <b>controles de atención</b>, tendrás que ordenar los vídeos tal y como se indique en el control. <b>Si fallas más de un control de atención, serás descalificado.</b>",
         "Gracias de antemano por dedicar tu tiempo a completar esta tarea. Tu participación nos resulta muy útil e importante."
     ],
+    "explanationSelecting": [
+    "En este ejercicio evaluarás diferentes sistemas que generan animaciones humanas. En cada ejercicio, se te mostrarán 3 vídeos y una imagen de referencia. Tienes que ver estos vídeos como prefieras. Puedes verlos todos a la vez, uno detrás de otro... <b>como tú prefieras</b>. Podrás <b>volver a verlos</b> tantas veces como quieras.",
+    "Después, tendrás que <b>seleccionar</b> el vídeo que <b>más se parezca a la pose de referencia</b>.",
+    "No tengas en cuenta el realismo ni la calidad de los vídeos; presta atención únicamente a la semejanza de la animación con la pose de referencia.",
+    "Para seleccionar el vídeo, puedes <b>hacer clic en el botón situado debajo del vídeo</b> que quieras elegir. Después de seleccionar el vídeo, envía tu respuesta haciendo clic en el botón de enviar situado en la parte inferior.",
+    "La prueba contiene controles de atención. En estos <b>controles de atención</b>, tendrás que elegir un vídeo específico, tal y como se indique en el control. <b>Si fallas más de un control de atención, quedarás descalificado/a</b>.",
+    "Muchas gracias de antemano por dedicar tu tiempo a completar esta tarea. Tu participación nos resulta muy útil e importante."
+    ],
     "fastest": "← Más rápido",
     "slowest": "Más lento →",
     "submitButton": "Enviar",

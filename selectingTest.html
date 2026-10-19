@@ -416,7 +416,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function loadNextVideos(currentResponseCount) {
       document.getElementById("headerProgress").innerHTML = (currentResponseCount + 1) + " / " + maxResponses;
-
+      var videoNames = []
       selectedVideoIndex = null;
 
       videoEnded = [false, false, false];
@@ -434,7 +434,7 @@ document.addEventListener("DOMContentLoaded", () => {
       });
 
       if (responseCount === attentionCheck1) {
-          var videoNames = ["attention_select_11","attention_select_10","attention_select_12"]
+          videoNames = ["attention_select_11","attention_select_10","attention_select_12"]
           videoElements.forEach((video, index) => {
             video.pause();
             video.currentTime = 0;
@@ -447,7 +447,7 @@ document.addEventListener("DOMContentLoaded", () => {
         document.getElementById("referenceImage").src = gtPath;
 
       } else if (responseCount === attentionCheck2) {
-        var videoNames = ["attention_select_21","attention_select_22","attention_select_20"]
+        videoNames = ["attention_select_21","attention_select_22","attention_select_20"]
           videoElements.forEach((video, index) => {
             video.pause();
             video.currentTime = 0;
@@ -471,7 +471,7 @@ document.addEventListener("DOMContentLoaded", () => {
       }
 
       // Convert 0 -> "00", 7 -> "07", 34 -> "34", etc.
-      const videoNames = selectedIndices.map(index =>
+      videoNames = selectedIndices.map(index =>
           String(index).padStart(2, "0")
       );
 

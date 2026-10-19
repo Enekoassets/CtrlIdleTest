@@ -11,13 +11,13 @@
 
   <!-- Header -->
   <header class="text-center py-6 bg-white shadow-sm">
-    <h1 id="headerTitle" class="text-3xl font-bold"></h1>
-    <p id="headerExplanation" class="text-gray-500 mt-2"></p>
+    <h1 id="headerTitleSelecting" class="text-3xl font-bold"></h1>
+    <p id="headerExplanationSelecting" class="text-gray-500 mt-2"></p>
   </header>
 
   <!-- Main Video Section -->
   <main class="flex flex-col items-center justify-center flex-grow p-6">
-    <p id="explanation" class="text-xl"></p>
+    <p id="explanationSelecting" class="text-xl"></p>
     <div class="p-6 bg-blue-100 rounded-2xl my-2">
       <p id="informationLabel" class="p-6">Please, put in your information.</p>
       <div class="p-6">
@@ -47,7 +47,7 @@
   <!-- Selection Section -->
   <section class="flex flex-col bg-white shadow-inner py-8 px-6 items-center">
     <h2 id="selectionText" class="text-2xl font-semibold text-center mb-6"></h2>
-    <a href="orderingTest.html"><button id="startButton" onclick="registerStartTime()" class="mt-4 md:mt-0 bg-green-600 text-white font-semibold px-6 py-2 rounded-xl hover:bg-green-700 transition opacity-50 cursor-not-allowed"></button></a>
+    <a href="selectingTest.html"><button id="startButton" onclick="registerStartTime()" class="mt-4 md:mt-0 bg-green-600 text-white font-semibold px-6 py-2 rounded-xl hover:bg-green-700 transition opacity-50 cursor-not-allowed"></button></a>
   </section>
   </div>
   <!-- Footer -->
@@ -79,11 +79,11 @@
 
   function updateContent() {
     document.title = translations.title;
-    document.getElementById("headerTitle").innerHTML = translations.headerTitle;
-    document.getElementById("headerExplanation").innerHTML = translations.headerExplanation;
+    document.getElementById("headerTitleSelecting").innerHTML = translations.headerTitleSelecting;
+    document.getElementById("headerExplanationSelecting").innerHTML = translations.headerExplanationSelecting;
     document.getElementById("selectionText").innerHTML = translations.selectionText;
     document.getElementById("startButton").innerHTML = translations.startButton;
-    document.getElementById("explanation").innerHTML = translations.explanation.join("<br><br>");
+    document.getElementById("explanationSelecting").innerHTML = translations.explanationSelecting.join("<br><br>");
     document.getElementById("ageLabel").innerHTML = translations.ageLabel;
     document.getElementById("inputGenderTxt").innerHTML = translations.inputGenderTxt;
     document.getElementById("inputMaleTxt").innerHTML = translations.inputMaleTxt;
